@@ -3,6 +3,7 @@ import { Suspense } from "react"
 import { Kanit, IBM_Plex_Sans_Thai, IBM_Plex_Mono } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider } from "@/components/language-provider"
+import { WatchlistProvider } from "@/components/watchlist-provider"
 import { Header } from "@/components/header"
 import "./globals.css"
 
@@ -43,14 +44,16 @@ export default function RootLayout({
       <body className="min-h-full bg-background text-foreground flex flex-col antialiased">
         <ThemeProvider>
           <LanguageProvider>
-            <div className="flex flex-col min-h-screen bg-void text-mist font-sans">
-              <Suspense fallback={<div className="h-14 md:h-16 w-full border-b border-border bg-void/90" />}>
-                <Header />
-              </Suspense>
-              <main className="flex-1 flex flex-col">
-                {children}
-              </main>
-            </div>
+            <WatchlistProvider>
+              <div className="flex flex-col min-h-screen bg-void text-mist font-sans">
+                <Suspense fallback={<div className="h-14 md:h-16 w-full border-b border-border bg-void/90" />}>
+                  <Header />
+                </Suspense>
+                <main className="flex-1 flex flex-col">
+                  {children}
+                </main>
+              </div>
+            </WatchlistProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>

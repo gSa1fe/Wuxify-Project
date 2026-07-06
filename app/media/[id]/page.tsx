@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation"
+import { cache } from "react"
 import { anilistFetch } from "@/lib/api"
 import { GET_MEDIA_BY_ID } from "@/lib/api/queries/media"
 import { RawMediaSchema } from "@/lib/schemas/anilist"
@@ -9,7 +10,7 @@ interface MediaDetailsPageProps {
   params: Promise<{ id: string }>
 }
 
-async function fetchMedia(id: number) {
+const fetchMedia = cache(async (id: number) => {
   try {
     const rawData = await anilistFetch<{ Media: unknown }>(
       GET_MEDIA_BY_ID,
@@ -30,7 +31,7 @@ async function fetchMedia(id: number) {
     console.error("[AniList Load Error on Details Page]:", err)
     return null
   }
-}
+})
 
 export async function generateMetadata({ params }: MediaDetailsPageProps) {
   const resolvedParams = await params

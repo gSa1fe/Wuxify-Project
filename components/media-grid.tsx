@@ -80,25 +80,29 @@ export function MediaGrid({ initialData, featuredMedia }: MediaGridProps) {
       <FilterBar startTransition={startTransition} updateFilters={updateFilters} />
 
       {/* Grid of items */}
-      {isPending ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-          {Array.from({ length: 10 }).map((_, idx) => (
-            <div key={idx} className="flex flex-col gap-3 w-full">
-              <Skeleton className="aspect-[3/4] w-full bg-foreground/5 rounded-sm" />
-              <Skeleton className="h-4 w-3/4 bg-foreground/5 rounded-sm" />
-              <Skeleton className="h-3 w-1/2 bg-foreground/5 rounded-sm mt-auto" />
-            </div>
-          ))}
-        </div>
-      ) : initialData.media.length === 0 ? (
-        <div className="flex flex-col items-center justify-center p-12 bg-card border border-border/40 rounded-sm text-center">
-          <Funnel size={48} className="text-muted-foreground/30 mb-4" />
-          <h3 className="font-heading text-lg font-bold text-foreground mb-1">{t("noTitles")}</h3>
-          <p className="text-sm text-muted-foreground">{t("adjustFilters")}</p>
-        </div>
+      {initialData.media.length === 0 ? (
+        isPending ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            {Array.from({ length: 10 }).map((_, idx) => (
+              <div key={idx} className="flex flex-col gap-3 w-full">
+                <Skeleton className="aspect-[3/4] w-full bg-foreground/5 rounded-sm" />
+                <Skeleton className="h-4 w-3/4 bg-foreground/5 rounded-sm" />
+                <Skeleton className="h-3 w-1/2 bg-foreground/5 rounded-sm mt-auto" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center p-12 bg-card border border-border/40 rounded-sm text-center">
+            <Funnel size={48} className="text-muted-foreground/30 mb-4" />
+            <h3 className="font-heading text-lg font-bold text-foreground mb-1">{t("noTitles")}</h3>
+            <p className="text-sm text-muted-foreground">{t("adjustFilters")}</p>
+          </div>
+        )
       ) : (
         <motion.div
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
+          className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 transition-all duration-300 ${
+            isPending ? "opacity-40 pointer-events-none" : ""
+          }`}
         >
           <AnimatePresence mode="popLayout">
             {initialData.media.map((item) => (

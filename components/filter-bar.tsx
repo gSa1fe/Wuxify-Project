@@ -92,13 +92,12 @@ export function FilterBar({ startTransition, updateFilters }: FilterBarProps) {
     }
   }, [debouncedSearch, searchParams, updateFilters])
 
+  const externalSearch = searchParams.get("search") || ""
+
   // Sync local search when URL search param changes externally (e.g. browser back/forward)
   useEffect(() => {
-    const externalSearch = searchParams.get("search") || ""
-    if (externalSearch !== searchValue) {
-      Promise.resolve().then(() => setSearchValue(externalSearch))
-    }
-  }, [searchParams, searchValue])
+    Promise.resolve().then(() => setSearchValue(externalSearch))
+  }, [externalSearch])
 
   const handleCloseSearch = () => {
     const params = new URLSearchParams(searchParams.toString())

@@ -13,7 +13,7 @@ interface FeaturedBannerProps {
 }
 
 // Sub-component: Mini Card (Stacked in columns, showing only cover)
-function BannerMiniCard({ media }: { media: Media }) {
+function BannerMiniCard({ media, priority = false }: { media: Media; priority?: boolean }) {
   return (
     <Link href={`/media/${media.id}`} className="flex-1 relative w-full h-[calc(50%-6px)] md:h-[calc(50%-8px)] rounded-sm overflow-hidden group border border-white/5 hover:border-jade/30 transition-all select-none">
       <Image
@@ -22,6 +22,7 @@ function BannerMiniCard({ media }: { media: Media }) {
         fill
         className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
         sizes="(max-w-768px) 33vw, (max-w-1024px) 20vw, 150px"
+        priority={priority}
       />
 
       {/* Mini bookmark indicator */}
@@ -35,7 +36,7 @@ function BannerMiniCard({ media }: { media: Media }) {
 }
 
 // Sub-component: Large Card (Showing only cover)
-function BannerLargeCard({ media }: { media: Media }) {
+function BannerLargeCard({ media, priority = false }: { media: Media; priority?: boolean }) {
   return (
     <Link href={`/media/${media.id}`} className="block relative w-full h-full rounded-sm overflow-hidden group border border-white/5 hover:border-jade/30 transition-all select-none">
       <Image
@@ -44,6 +45,7 @@ function BannerLargeCard({ media }: { media: Media }) {
         fill
         className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
         sizes="(max-w-768px) 50vw, (max-w-1024px) 33vw, 250px"
+        priority={priority}
       />
 
       {/* Bookmark button */}
@@ -125,30 +127,30 @@ export function FeaturedBanner({ mediaList }: FeaturedBannerProps) {
           >
             {/* Column 1: Stacked (Item 0, Item 1) - Desktop only */}
             <div className="hidden lg:flex flex-col gap-3 md:gap-4 h-full">
-              <BannerMiniCard media={currentSlideItems[0]} />
-              <BannerMiniCard media={currentSlideItems[1]} />
+              <BannerMiniCard media={currentSlideItems[0]} priority={activeSlide === 0} />
+              <BannerMiniCard media={currentSlideItems[1]} priority={activeSlide === 0} />
             </div>
 
             {/* Column 2: Large (Item 2) - All screens */}
             <div className="h-full">
-              <BannerLargeCard media={currentSlideItems[2]} />
+              <BannerLargeCard media={currentSlideItems[2]} priority={activeSlide === 0} />
             </div>
 
             {/* Column 3: Stacked (Item 3, Item 4) - All screens */}
             <div className="flex flex-col gap-3 md:gap-4 h-full">
-              <BannerMiniCard media={currentSlideItems[3]} />
-              <BannerMiniCard media={currentSlideItems[4]} />
+              <BannerMiniCard media={currentSlideItems[3]} priority={activeSlide === 0} />
+              <BannerMiniCard media={currentSlideItems[4]} priority={activeSlide === 0} />
             </div>
 
             {/* Column 4: Large Card (Item 5) - Tablet and Desktop */}
             <div className="hidden md:block h-full">
-              <BannerLargeCard media={currentSlideItems[5]} />
+              <BannerLargeCard media={currentSlideItems[5]} priority={activeSlide === 0} />
             </div>
 
             {/* Column 5: Stacked (Item 6, Item 7) - Desktop only */}
             <div className="hidden lg:flex flex-col gap-3 md:gap-4 h-full">
-              <BannerMiniCard media={currentSlideItems[6]} />
-              <BannerMiniCard media={currentSlideItems[7]} />
+              <BannerMiniCard media={currentSlideItems[6]} priority={activeSlide === 0} />
+              <BannerMiniCard media={currentSlideItems[7]} priority={activeSlide === 0} />
             </div>
           </motion.div>
         </AnimatePresence>
